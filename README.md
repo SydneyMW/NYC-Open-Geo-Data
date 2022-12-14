@@ -66,4 +66,47 @@ Plot new GeoDataFrame:
 fig, ax = plt.subplots(figsize = (15, 15))
 geo_arrests.plot(ax=ax, markersize=20, alpha=0.5, color='red', marker='x')
 ```
+![download](https://user-images.githubusercontent.com/79494397/207506899-c145db7a-8ec4-4663-8225-fed47e18167d.png)
+
+## Combined Plot of NYC Backgrounds and Arrests
+**Plot arrests with subway routes:**
+```
+fig = plt.figure(figsize=(15, 4))
+ax1 = fig.add_subplot(1, 3, 1)
+ax2 = fig.add_subplot(1, 3, 2)
+ax3 = fig.add_subplot(1, 3, 3)
+subway_routes.plot(ax=ax1, alpha=0.25, markersize=5, color='blue')
+geo_arrests.plot(ax=ax2, alpha=0.25, markersize=5, color='red', marker='x')
+subway_routes.plot(ax=ax3, alpha=0.25, markersize=5, color='blue')
+geo_arrests.plot(ax=ax3, alpha=0.25, markersize=5, color='red', marker='x')
+```
+![download](https://user-images.githubusercontent.com/79494397/207507140-6edb2c32-49b7-4ea4-a621-bdff3a3ad350.png)
+
+**Plot arrests with NYC buildings and subway stops:**
+```
+fig, ax = plt.subplots(figsize = (15, 15))
+
+# Plot shapefile backgrounds
+buildings.plot(ax=ax)
+subway.plot(ax=ax, alpha=0.6, markersize=15, color='teal')
+
+# Add point geometry from arrest data
+geo_arrests.plot(ax=ax, markersize=10, alpha=0.6, color='purple', marker='x', label='Arrest Site')
+```
+![download](https://user-images.githubusercontent.com/79494397/207507377-a3eec9f0-e69b-4daf-8e16-7e0488888403.png)
+
+**Plot arrests with NYC roads, subway routes, and subway stops:**
+```
+fig, ax = plt.subplots(figsize = (15, 15))
+
+# Plot shapefile backgrounds
+roads.plot(ax=ax, markersize=1, alpha=0.2, color='grey')
+subway_routes.plot(ax=ax, alpha=0.15, markersize=5, color='blue')
+subway_stops.plot(ax=ax, alpha=0.3, markersize=10, color='blue', marker='o')
+
+# Plot point geometry from arrest data
+geo_arrests.plot(ax=ax, markersize=10, alpha=0.6, color='red', marker='x', label='Arrest Site')
+```
+![download](https://user-images.githubusercontent.com/79494397/207507556-36074c52-bc1f-4a60-90ab-6cf0939d04ec.png)
+
 
