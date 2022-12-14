@@ -44,3 +44,26 @@ subway_routes.plot(ax=ax, alpha=0.5)
 ```
 ![download](https://user-images.githubusercontent.com/79494397/207500145-584569cf-8230-4c48-a0d8-a2bdcf762846.png)
 
+## Configure Arrest Location with Point Geometry
+To retrieve NYC arrest location data, access [year-to-date NYPD Arrest Data](https://data.cityofnewyork.us/Public-Safety/NYPD-Arrest-Data-Year-to-Date-/uip8-fykc) from [NYC Open Data](https://opendata.cityofnewyork.us/data/) using the [SODA API](https://dev.socrata.com/foundry/data.cityofnewyork.us/uip8-fykc) with the sodapy package.
+
+Fetch data:
+```
+client = Socrata("data.cityofnewyork.us", None)
+query = client.get("uip8-fykc", limit=2000) # Fetch no more than 2000 entries
+arrests = pd.DataFrame.from_records(query)
+```
+Using latitude and longitude columns, extract point values for new geometry feature:
+```
+longitude = pd.to_numeric(arrests['longitude'])
+latitude = pd.to_numeric(arrests['latitude'])
+crs = {'init':'epsg:4326'}
+geometry = [Point(xy) for xy in zip(longitude,latitude)]
+geo_arrests = gpd.GeoDataFrame(arrests, crs=crs, geometry=geometry)
+```
+Plot new GeoDataFrame:
+```
+fig, ax = plt.subplots(figsize = (15, 15))
+geo_arrests.plot(ax=ax, markersize=20, alpha=0.5, color='red', marker='x')
+```
+
